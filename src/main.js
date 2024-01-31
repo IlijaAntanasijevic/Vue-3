@@ -20,7 +20,7 @@ import * as directives from 'vuetify/directives'
 axios.defaults.baseURL = 'https://api.themoviedb.org/3/';
 axios.defaults.headers.common['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MzE5OGU2NjgxNDBmODhlOWQ5NjMxNDZkNThjZDllMSIsInN1YiI6IjY1YjAwMTEyODQ4ZWI5MDBjYTRmMWZjMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EU-hyin0Hz2Lz6Kwxv8h-TdS3C3RVSoCyuHh4MMqkZw';
 
-axios.defaults.headers.get['Content-Type'] = 'application/json';
+axios.defaults.headers.get['Content-Type'] = 'application/json';5
 
 const axiosInstance = axios.create();
 // const vuetifyInstance = new Vuetify({});

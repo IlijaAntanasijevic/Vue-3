@@ -1,4 +1,6 @@
 <script>
+//POSTOJE OPCIJE FILTRIRANJA.......................
+//https://developer.themoviedb.org/reference/discover-movie 
 export default {
   name: "PopularMovies",
   data() {

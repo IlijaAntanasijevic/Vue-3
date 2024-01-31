@@ -4082,6 +4082,7 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
+  margin-bottom: 50px;
 }
 
 .article__content ul.list li {
@@ -4268,7 +4269,8 @@ body::-webkit-scrollbar-thumb {
   }
 
   .article__content h1 {
-    font-size: 36px;
+    font-size: 4rem;
+    text-align: center;
   }
 
   .article__content h2 {
@@ -4313,7 +4315,6 @@ body::-webkit-scrollbar-thumb {
   .article__content h6:last-child,
   .article__content p:last-child,
   .article__content blockquote:last-child,
-  .article__content ul:last-child,
   .article__content img:last-child,
   .article__content iframe:last-child {
     margin-bottom: 0;
@@ -4323,9 +4324,7 @@ body::-webkit-scrollbar-thumb {
     height: 400px;
   }
 
-  .article__content ul.list {
-    margin-top: -20px;
-  }
+
 
   .article__btn {
     margin-bottom: 30px;
@@ -4371,9 +4370,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (min-width: 1200px) {
-  .article__content {
-    padding-right: 30px;
-  }
 
   .article__content iframe {
     height: 460px;

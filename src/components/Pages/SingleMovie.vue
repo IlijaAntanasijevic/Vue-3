@@ -3,72 +3,86 @@ export default {
   name: "singleMovie",
   data(){
     return{
-      id:null
+      id:null,
+      movieData: null,
     }
   },
-  mounted(){
+  methods: {//movie/111?language=en-US
+    async fetchData(){
+      const response = await this.$axios.get("/movie/"+ this.id +"?language=en-US");
+      this.movieData = response.data;
+    },
+    displayAverageVote(averageVote) {
+      if (averageVote != undefined) {
+        averageVote = averageVote.toString();
+        return averageVote.substring(0, 3);
+      }
+      return "?";
+    },
+    showRelaseYear(date) {
+      if (date != undefined) {
+        return date.substring(0, 4);
+      }
+      return "";
+    },
+    calculateRuntime(totalMinutes){
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+
+      return `${hours}h ${minutes}min`;
+
+      
+    }
+  },
+  async mounted(){
     this.id = this.$route.params.id;
+    await this.fetchData()
+    console.log(this.movieData);
+
   }
 }
 </script>
 
 <template>
-	<section class="section section--head section--head-fixed section--gradient section--details-bg">
-		<div class="section__bg">
-      <img src="@/assets/img/details.jpg" alt="">
-    </div>
+	<section class="section section--head section--head-fixed section--gradient section--details-bg" v-if="movieData != null">
+	
 		<div class="container">
 			<!-- article -->
 			<div class="article">
-				<div class="row">
+				<div class="row" id="article">
+				
+					
+					<!-- article content -->
+          <div class="article__content">
+            <h1>{{movieData.title}}</h1>
+            <ul class="list">
+              <li>{{movieData.genres[0].name}}</li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 
+                {{displayAverageVote(movieData.vote_average) }}
+              </li>
+              <li>{{showRelaseYear(movieData.release_date)}}</li>
+              <li>{{calculateRuntime(movieData.runtime) }}</li>
+              <li v-if="movieData.adult">16+</li>
+              <li v-else>12+ </li>
+
+            </ul>
+          </div>
+            <!-- video player -->
 					<div class="col-12 col-xl-8">
-
-						<!-- article content -->
-						<div class="article__content">
-							<h1>The Fast and the Furious</h1>
-
-							<ul class="list">
-								<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 9.7</li>
-								<li>Action</li>
-								<li>2021</li>
-								<li>1 h 42 min</li>
-								<li>16+</li>
-							</ul>
-
-							<p>It is a long established fact that a reader will be distracted by the readable content of a
-                 page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal 
-                 distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-						</div>
-						<!-- end article content -->
-					</div>
-
-					<!-- video player -->
-					<div class="col-12 col-xl-8">
-						<video controls autoplay crossorigin playsinline poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
-							<!-- Video files -->
-							<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">
-							<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">
-							<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4" size="1080">
-
-							<!-- Caption files -->
-							<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-							    default>
-							<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-
-							<!-- Fallback for browsers that don't support the <video> element -->
-							<a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
-						</video>
+						<img :src="this.$baseImagePath + movieData.poster_path">
 
 						<div class="article__actions article__actions--details">
 							<div class="article__download">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M21,14a1,1,0,0,0-1,1v4a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V15a1,1,0,0,0-2,0v4a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V15A1,1,0,0,0,21,14Zm-9.71,1.71a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l4-4a1,1,0,0,0-1.42-1.42L13,12.59V3a1,1,0,0,0-2,0v9.59l-2.29-2.3a1,1,0,1,0-1.42,1.42Z"/></svg>
 								Download:
-								<a href="#" download="#">480p</a>
-								<a href="#" download="#">720p</a>
-								<a href="#" download="#">1080p</a>
-								<a href="#" download="#">4k</a>
+								<p class="downloadText">480p</p>
+								<p class="downloadText">720p</p>
+								<p class="downloadText">1080p</p>
+								<p class="downloadText">4K</p>
+				
 							</div>
 
 							<!-- add .active class -->
@@ -77,18 +91,32 @@ export default {
 					</div>
 					<!-- end video player -->
 
-				
 
-					<div class="col-12 col-xl-8">
+        
+          <!-- end article content -->
+
+					<div class="col-12 col-xl-8" >
 						<!-- categories -->
 						<div class="categories">
 							<h3 class="categories__title">Genres</h3>
-							<a href="category.html" class="categories__item">Action</a>
-							<a href="category.html" class="categories__item">Thriller</a>
-							<a href="category.html" class="categories__item">Crime</a>
+              <span v-for="genre in movieData.genres" :key="genre" class="categories__item">{{genre.name}}</span>
 						</div>
+            <div id="movieInfo">
+              <ul>
+                <li>AAA</li>
+                <li>AAA</li>
+                <li>AAA</li>
+                <li>AAA</li>
+                <li>AAA</li>
+              </ul>
+            </div>
 						<!-- end categories -->
-
+            
+            <!-- Overview -->
+            <div>
+              <p class="overview"> {{movieData.overview}}</p>
+            </div>
+            <!-- End overview -->
 						<!-- share -->
 						<div class="share">
 							<h3 class="share__title">Share</h3>
@@ -139,3 +167,40 @@ export default {
 	</section>
 	<!-- end details -->
 </template>
+
+<style scoped>
+.overview {
+  color: white;
+  margin: 20px 0px;
+  font-size: 1.15rem;
+}
+.downloadText {
+  margin: 0px 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#article {
+      display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.list {
+  margin: 0px 0px 50px 0px;
+}
+
+#movieInfo ul {
+  list-style-type: disclosure-closed;
+  padding-right: 25px;
+  position: relative;
+  left: 30px;
+  margin-top: 25px;
+  color: white;
+}
+#movieInfo ul li {
+  line-height: 2;
+}
+#movieInfo ul li::marker {
+  color: #2f80ed;
+}
+</style>
