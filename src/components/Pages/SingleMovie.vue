@@ -1,0 +1,42 @@
+<script>
+export default {
+  name: "singleMovie",
+  data(){
+    return{
+      id:null
+    }
+  },
+  mounted(){
+    this.id = this.$route.params.id;
+  }
+}
+</script>
+
+<template>
+<div>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>{{id}}</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+  <h1>AAAAAAAAAAAAAAAAAAA</h1>
+</div>
+</template>
