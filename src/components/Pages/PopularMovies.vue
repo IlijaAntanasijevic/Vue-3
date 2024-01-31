@@ -59,12 +59,15 @@ export default {
         this.data.filter(x => {
           x.genre_ids.filter(x => x == selectedGenre)
         })
-        this.moreMovies = this.data;
-        // response.data.results.forEach(x => {
-        //   //  console.log(this.defaultPage);
-        //   //  this.filterMovies(selectedGenre,true)
         
-        // })
+        if(this.moreMovies.length == 0){
+          this.moreMovies = this.data;
+        }
+        else {
+          this.moreMovies.push(...this.data);
+        }
+
+
       }
 
       else {
@@ -74,7 +77,7 @@ export default {
     showSingleMovie(id) {
       this.$router.push({ name: "movie", params: { id: id } });
     },
-    async filterMovies(selectedID,loadMore = false){
+    async filterMovies(selectedID){
     //ID 28 = Action
     //ID 12 = Adventure
     //console.log(this.data);
@@ -90,16 +93,10 @@ export default {
           }
         })
       })
-      console.log(this.moreMovies.length);
       if(this.filteredMovies.length < 20){
         this.defaultPage++;
         await this.fetchData()
         await this.filterMovies(selectedID)
-      }
-      if(loadMore){
-       // this.filteredMovies = [];
-        this.defaultPage++;
-        this.moreMovies = this.moreMovies.length < 20 ? this.filteredMovies : []
       }
       //console.log(this.moreMovies);
     }
@@ -109,6 +106,7 @@ export default {
   },
   watch: {
     async selectedGenre(selectedID,oldID){
+      this.moreMovies = [];
       if(selectedID == 0){
         console.log("TUUUU11");
         this.defaultPage = 1;
@@ -203,7 +201,7 @@ export default {
             </div>
           </div>
           
-          
+          <!-- Show more movies -->
           <div v-for="movie in moreMovies" :key="movie" class="singleCard" >
             <div class="card" @click="showSingleMovie(movie.id)">
               <div class="card__cover">
