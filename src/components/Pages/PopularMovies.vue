@@ -9,7 +9,8 @@ export default {
       moreMovies: [],
       showButton: true,
       selectedGenre: 0,
-      filteredMovies: []
+      filteredMovies: [],
+      totalMoviesToLoad: 0
     };
   },
   methods: {
@@ -43,11 +44,13 @@ export default {
       }
       return "";
     },
-    async showMore(selectedGenre = 0) {
+    async showMore(selectedGenre = 0,totalToBrowse = 20) {
 
       selectedGenre = this.selectedGenre == 0 ? 0 : this.selectedGenre;
-      console.log(selectedGenre);
       this.defaultPage++;
+
+      //console.log(selectedGenre);
+      
       if (this.defaultPage < 500 && selectedGenre == 0) {
         const response = await this.$axios.get('movie/popular?language=en-US&page=' + this.defaultPage);
         response.data.results.forEach((x) => {
@@ -56,23 +59,29 @@ export default {
       } 
       else if (this.defaultPage < 500){
         await this.fetchData();
-        this.data.filter(x => {
-          x.genre_ids.filter(x => x == selectedGenre)
+        this.data.forEach(x => {
+          let totalGenres = 0;
+          x.genre_ids.forEach((genre) => {
+            totalGenres++;
+            if(genre == selectedGenre && totalGenres < 2 && this.moreMovies.length < totalToBrowse + this.totalMoviesToLoad){
+              this.moreMovies.push(x);
+            }
+          })
         })
+
         
-        if(this.moreMovies.length == 0){
-          this.moreMovies = this.data;
-        }
-        else {
-          this.moreMovies.push(...this.data);
-        }
-
-
       }
-
       else {
         this.showButton = true;
       }
+      if(this.moreMovies.length < totalToBrowse + this.totalMoviesToLoad){
+        //console.log("REKURZIJA");
+        this.showMore()
+      }
+      else {
+        this.totalMoviesToLoad += totalToBrowse;
+      }
+      console.log(this.moreMovies.length);
     },
     showSingleMovie(id) {
       this.$router.push({ name: "movie", params: { id: id } });
@@ -107,6 +116,7 @@ export default {
   watch: {
     async selectedGenre(selectedID,oldID){
       this.moreMovies = [];
+      this.totalMoviesToLoad = 0;
       if(selectedID == 0){
         console.log("TUUUU11");
         this.defaultPage = 1;
