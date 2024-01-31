@@ -44,7 +44,7 @@ export default {
       return "";
     },
     async showMore(selectedGenre = 0) {
-      // LOAD MORE - NE RADI, SALJE UNDEFINED HTTP REQUEST
+
       selectedGenre = this.selectedGenre == 0 ? 0 : this.selectedGenre;
       console.log(selectedGenre);
       this.defaultPage++;
@@ -55,11 +55,16 @@ export default {
         });
       } 
       else if (this.defaultPage < 500){
-        const response = await this.$axios.get('movie/popular?language=en-US&page=' + this.defaultPage);
-        response.data.results.forEach(x => {
-           console.log(this.defaultPage);
-           this.filterMovies(selectedGenre,true)
+        await this.fetchData();
+        this.data.filter(x => {
+          x.genre_ids.filter(x => x == selectedGenre)
         })
+        this.moreMovies = this.data;
+        // response.data.results.forEach(x => {
+        //   //  console.log(this.defaultPage);
+        //   //  this.filterMovies(selectedGenre,true)
+        
+        // })
       }
 
       else {
@@ -74,6 +79,7 @@ export default {
     //ID 12 = Adventure
     //console.log(this.data);
     //console.log(selectedID);
+
      this.data.forEach(x => {
       let totalGenres = 0;
         //x.genre_ids.slice(0,2)
@@ -84,16 +90,18 @@ export default {
           }
         })
       })
-      
+      console.log(this.moreMovies.length);
       if(this.filteredMovies.length < 20){
         this.defaultPage++;
         await this.fetchData()
         await this.filterMovies(selectedID)
       }
       if(loadMore){
-        this.moreMovies.push(this.filteredMovies)
+       // this.filteredMovies = [];
+        this.defaultPage++;
+        this.moreMovies = this.moreMovies.length < 20 ? this.filteredMovies : []
       }
-      //console.log(this.filteredMovies);
+      //console.log(this.moreMovies);
     }
   },
   async mounted() {
@@ -102,15 +110,17 @@ export default {
   watch: {
     async selectedGenre(selectedID,oldID){
       if(selectedID == 0){
+        console.log("TUUUU11");
         this.defaultPage = 1;
         this.filteredMovies = []
         await this.fetchData();
       }
       else if(selectedID != oldID){
-      this.defaultPage = 1;
-      this.filteredMovies = []
-      await this.fetchData();
-      await this.filterMovies(selectedID)
+        console.log("TUU ELSE-IF");
+        this.defaultPage = 1;
+        this.filteredMovies = []
+        await this.fetchData();
+        await this.filterMovies(selectedID)
       }
   
     }
