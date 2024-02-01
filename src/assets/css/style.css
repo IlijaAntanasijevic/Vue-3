@@ -4475,6 +4475,7 @@ body::-webkit-scrollbar-thumb {
   color: #fff;
   font-size: 14px;
   background-color: #2f80ed;
+  text-decoration: none;
 }
 
 .share__link svg {
@@ -5268,6 +5269,7 @@ body::-webkit-scrollbar-thumb {
   height: 30px;
   position: relative;
   transition-property: all;
+
 }
 
 .footer__social a svg {
@@ -5305,6 +5307,8 @@ body::-webkit-scrollbar-thumb {
   font-size: 14px;
   color: #e0e0e0;
   margin-right: 20px;
+  text-decoration: none;
+
 }
 
 .footer__links a:last-child {
@@ -5324,6 +5328,7 @@ body::-webkit-scrollbar-thumb {
 
 .footer__copyright a {
   color: #fff;
+  text-decoration: none;
 }
 
 .footer__copyright a:hover {
@@ -5352,6 +5357,7 @@ body::-webkit-scrollbar-thumb {
   line-height: 21px;
   margin-bottom: 10px;
   color: #e0e0e0;
+  text-decoration: none;
 }
 
 .footer__nav a:last-child {

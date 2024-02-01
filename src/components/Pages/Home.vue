@@ -81,7 +81,10 @@ methods: {
       return date.substring(0,4)
     }
     return ""
-  }
+  },
+  showSingleMovie(id) {
+    this.$router.push({ name: "movie", params: { id: id } });
+    },
 },
 async mounted(){
   await this.fetchData();
@@ -161,7 +164,7 @@ setup(){
     <div class="home__carousel" id="flixtv-hero">
       <Carousel :items-to-show="homePerPage" :wrap-around="true"> <!-- 3.25 -->
         <Slide v-for="movie in dataUpcoming" :key="movie">
-          <div class="home__card">
+          <div class="home__card" @click="showSingleMovie(movie.id)">
             <span >
               <img  :src="baseImagePath + movie.poster_path" :alt="movie.title">
               <!-- <img src="@/assets/img/home/1.jpg" alt=""> -->
@@ -212,7 +215,7 @@ setup(){
             <div class="section__carousel owl-carousel" id="popular">
              <Carousel :items-to-show="movieListPerPage" :wrap-around="true">
               <Slide v-for="movie in dataPopular" :key="movie">
-                <div class="card mx-3">
+                <div class="card mx-3" @click="showSingleMovie(movie.id)">
                   <p class="card__cover">
                     <img :src="baseImagePath + movie.poster_path" :alt="movie.title">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -286,7 +289,7 @@ setup(){
             <div class="section__carousel owl-carousel" id="popular">
              <Carousel :items-to-show="movieListPerPage" :wrap-around="true">
               <Slide v-for="movie in dataTopRated" :key="movie">
-                <div class="card">
+                <div class="card" @click="showSingleMovie(movie.id)">
                   <p class="card__cover">
                     <img :src="baseImagePath + movie.poster_path" :alt="movie.title">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -365,7 +368,7 @@ setup(){
             <div class="section__carousel owl-carousel" id="popular">
              <Carousel :items-to-show="movieListPerPage" :wrap-around="true">
               <Slide v-for="item in dataPopularSeries" :key="item">
-                <div class="card" >
+                <div class="card" @click="showSingleMovie(item.id)">
                   <p  class="card__cover">
                     <img v-if="item.poster_path" :src="baseImagePath + item.poster_path" :alt="item.name">
                     <img v-else src="@/assets/img/NoImageAvailable.png">
